@@ -1,1 +1,0 @@
-//Board: The board component renders a 10x10 board containing a total of 100 cells and 10 of the cells will contain mines.

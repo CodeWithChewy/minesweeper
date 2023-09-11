@@ -1,1 +1,0 @@
-//Cell : The cell component renders a cell div that represents each square in the board.
