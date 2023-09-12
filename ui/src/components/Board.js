@@ -2,16 +2,19 @@ import React, { useState, useEffect } from 'react';
 import createBoard from '../util/createBoard';
 import Cell from './Cell';
 import { revealed } from '../util/reveal';
+import Modal from './Modal';
+// import Timer from './Timer';
 
 const Board = () => {
     const [grid, setGrid] = useState([]);
     const [nonMineCount, setNonMineCount] = useState(0);
     const [mineLocations, setMineLocations] = useState([]);
+    const [gameOver, setGameOver] = useState(false);
 
     useEffect(() => {
         function freshBoard() {
-            const newBoard = createBoard(10, 10, 15);
-            const totalNonMines = 10 * 10 - 15;
+            const newBoard = createBoard(10, 15, 15);
+            const totalNonMines = 10 * 15 - 15;
             setNonMineCount(totalNonMines);
             setMineLocations(newBoard.mineLocation);
             setGrid(newBoard.board);
@@ -27,7 +30,7 @@ const Board = () => {
     };
 
     const revealCell = (x, y) => {
-        if (grid[x][y].revealed) {
+        if (grid[x][y].revealed || gameOver) {
             return;
         }
         let newGrid = JSON.parse(JSON.stringify(grid));
@@ -37,11 +40,15 @@ const Board = () => {
                 newGrid[mineLocations[i][0]][mineLocations[i][1]].revealed = true;
             }
             setGrid(newGrid);
+            setGameOver(true);
         } else {
             let newRevealedBoard = revealed(newGrid, x, y, nonMineCount);
             setGrid(newRevealedBoard.arr);
             if (newRevealedBoard.newNonMinesCount >= 0) {
                 setNonMineCount(newRevealedBoard.newNonMinesCount);
+                if (newRevealedBoard.newNonMinesCount === 0) {
+                    setGameOver(true);
+                }
             }
 
         }
@@ -49,12 +56,15 @@ const Board = () => {
 
     return (
         <div>
-            <p>{nonMineCount}</p>
+            <p>Minesweeper</p>
+            {/* <Timer /> */}
             <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center'
+                alignItems: 'center',
+                position: 'relative',
             }}>
+                {gameOver && <Modal />}
                 {grid.map((singleRow, index1) => {
                     return (
                         <div style={{ display: "flex" }} key={index1}>

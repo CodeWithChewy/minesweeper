@@ -32,7 +32,32 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.cellStyle {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 30px;
+  font-weight: 800;
+
+}
+
+#gameOverImage {
+  opacity: 100;
+  z-index: 4;
+  height: 70%;
+  max-width: 100%;
+  margin: 0 50px;
+  background: url("https://www.google.com/logos/fnbx/minesweeper/lose_screen.png") 0px 80px no-repeat;
+  background-repeat: repeat-x;
+  position: relative;
+  padding-top: 20px;
 }
